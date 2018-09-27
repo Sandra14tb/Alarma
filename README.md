@@ -1,8 +1,11 @@
 # Practica 2 Acceso a puerta
 
 Sandra Luz Godínez Guerrero
+
 Sistemas Programables 
+
 Ingeniería en Sistemas Computacionales
+
 27 de septiembre del 2018
 
 # Descripción del problema a resolver
@@ -37,10 +40,11 @@ Diagrama de simulación
 ![
 ](https://github.com/Sandra14tb/Alarma/blob/master/practica2_simulado.png?raw=true)
 
-# Imágenes de la practica Real
+# Resultados
 ![enter image description here](https://github.com/Sandra14tb/Alarma/blob/master/imagen1.jpg?raw=true)
 ![enter image description here](https://github.com/Sandra14tb/Alarma/blob/master/imagen2.jpg?raw=true)
 
 ## Contacto
 Correo: sandra_luz@live.com.mx
-			sandy.goboo@gmail.com
+
+sandy.goboo@gmail.com
