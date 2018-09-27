@@ -3,27 +3,34 @@
 //Sistemas Programables
 
 #include <avr/sleep.h>
+#include <LiquidCrystal.h>
+
+//Crear el objeto LCD con los números correspondientes (rs, en, d4, d5, d6, d7)
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 
 //Definir pines usados 
 #define ledVerde 2
 #define reed 3
-#define buzzer 9
+#define buzzer 10
 
 //definir frecuencias para el buzzer
 const int tono1 = 1000;
 const int tono2 = 1250;
 
 //Variable para almacenar el estado del reed switch
-int value = 0;
-int estado = LOW;
+volatile int value = HIGH;
 
 void setup() {
   //Configurar entradas y salidas
   pinMode(reed, INPUT_PULLUP);
   pinMode(ledVerde, OUTPUT);
   pinMode(buzzer, OUTPUT);
-  set_sleep_mode(SLEEP_MODE_PWR_DOWN);//Establecemos el modo de bajo consumo.
-  attachInterrupt(digitalPinToInterrupt(reed), interrupcion, RISING); //Se crea una interrupcion con el pin puerta
+  lcd.begin(16, 2);
+  
+  //Modo de bajo consumo.
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  //Se crea una interrupcion que reaccione al cambiar de LOW a HIGH
+  attachInterrupt(digitalPinToInterrupt(reed), interrupcion, RISING); 
   Serial.begin(9600);
 }
 
@@ -34,6 +41,12 @@ void loop() {
   if (value == LOW) {
     sleep_disable();
     digitalWrite(ledVerde, HIGH);
+    //Mostrar mensaje en display lcd 16x2
+    lcd.display();
+    lcd.home();
+    lcd.print(" PUERTA ABIERTA ");
+    lcd.setCursor (0,1);
+    lcd.print("      ENTRE     ");
   
    //Sonido del buzzer
    tone(buzzer, tono1);
@@ -41,8 +54,10 @@ void loop() {
    tone(buzzer, tono2);
 
   } else {
-//    digitalWrite(ledVerde,LOW);//Apaga el led con la alarma; si esta linea no se comenta el led se apagara
-//     noTone(buzzer);
+     digitalWrite(ledVerde,LOW);//Apaga el led con la alarma; si esta linea no se comenta el led se apagara
+     noTone(buzzer);
+     // Turn off the display:
+     lcd.noDisplay();
      sleep_enable();//inicializamos el modo bajo consumo
      sleep_mode();//ponemos el modo bajo consumo.
   }
@@ -52,7 +67,7 @@ void loop() {
 }
 
 void interrupcion() {
-  value = !value;//Si se irrumpe la puerta, hay un cambio de estado de cerrado a abierto y viceversa
+  value = !value;
 }
 
 
